@@ -1,0 +1,35 @@
+.row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.col-2 {
+    flex-basis: 50%;
+    min-width: 300px;
+}
+
+.col-2 img {
+    max-width: 100%;
+    padding: 50px 0;
+}
+
+.col-1 h4 {
+    padding-bottom: .75rem;
+}
+
+.col-1 h1 {
+    color: #088178;
+}
+
+.col-1 button {
+    margin-top: 1rem;
+    padding: .5rem 1.75rem;
+    cursor: pointer;
+    background-color: #ff523b;
+    border-radius: 1.75rem;
+    border: 0;
+    color: #fff;
+
+}

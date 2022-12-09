@@ -1,0 +1,44 @@
+
+.small-container {
+    max-width: 1080px;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.offer {
+    background: radial-gradient(#fff, #ffd6d6);
+}
+
+.band {
+    font-size: 3rem;
+    padding: 1rem 0;
+}
+
+.offer-padding {
+    padding-top: 3rem;
+}
+
+.col-2 .offer-img {
+    padding: 50px;
+}
+
+small {
+    color: #555;
+}
+
+.btn {
+    margin-top: 3rem;
+    padding: .5rem 1.75rem;
+    cursor: pointer;
+    background-color: #ff523b;
+    border-radius: 1.75rem;
+    border: 0;
+    color: #fff;
+}
+
+.col-3 {
+    flex-basis: 30%;
+    min-width: 250px;
+    margin-bottom: 30px;
+}

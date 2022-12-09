@@ -1,0 +1,72 @@
+.single-product {
+    margin-top: 80px;
+}
+.single-product .col-2{
+    padding: 0;
+}
+.single-product .col-2 img{
+    padding: 20px;
+}
+
+
+.size-arrange{
+    display: flex;
+    gap: 2rem;
+    
+}
+.single-product h4{
+    margin: 20px 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+.single-product input{
+    width: 40px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ff523b;
+    padding-left: 10px;
+
+}
+.single-product input:focus{
+    outline: none;
+}
+
+.single-product button{
+    margin: 30px ;
+}
+
+
+.select-size{
+    margin-top: 20px;
+}
+.size-arrange div{
+    width: 50px;
+    height: 50px;
+    background: #777;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 45px;
+    color: #fff;
+    font-size: 1rem;
+}
+.size-arrange div:hover{
+    background-color: #ff523b;
+    cursor: pointer;
+}
+.single-product .bx-right-indent{
+    color: #ff523b;
+    margin-left: 10px;
+}
+
+.small-img-row{
+    display: flex;
+    justify-content: space-between;
+}
+.small-img-col{
+    flex-basis: 24%;
+    cursor: pointer;
+}
+.small-img-col img{
+    width: 100%;
+
+}
