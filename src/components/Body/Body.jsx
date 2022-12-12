@@ -1,8 +1,11 @@
+
+
 import React from 'react'
 import './Body.css'
 import image1 from '../../assets/images/image1.png'
 
 function Body() {
+  
   return (
     <div className="row">
                 <div className="col-1">
