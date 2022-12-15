@@ -1,16 +1,37 @@
-import React from "react";
-import './ProductDetails.css'
-import gallery1 from '../../assets/images/gallery-1.jpg'
-import gallery2 from '../../assets/images/gallery-2.jpg'
-import gallery3 from '../../assets/images/gallery-3.jpg'
-import gallery4 from '../../assets/images/gallery-4.jpg'
+import React, { useEffect, useState } from "react";
+import "./ProductDetails.css";
+import { useParams } from "react-router-dom";
+import axios from "../../adapters/axios";
+import gallery1 from "../../assets/images/gallery-1.jpg";
+import gallery2 from "../../assets/images/gallery-2.jpg";
+import gallery3 from "../../assets/images/gallery-3.jpg";
+import gallery4 from "../../assets/images/gallery-4.jpg";
+
 
 function ProductDetails() {
+  const { id } = useParams();
+  const [products, setProducts] = useState("");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await axios.get(`products/getFeaturedProducts/${id}`);
+        setProducts(result.data);
+      } catch (error) {
+        console.error(`Error : ${error.response.data}`);
+      }
+    })();
+  }, []);
+
   return (
     <div className="small-container single-product">
       <div className="row">
         <div className="col-2">
-          <img src={gallery1} width="100%" id="ProductImg" />
+          <img
+            src={products ? products.image : "image"}
+            width="100%"
+            id="ProductImg"
+          />
 
           <div className="small-img-row">
             <div className="small-img-col">
@@ -29,9 +50,9 @@ function ProductDetails() {
         </div>
 
         <div className="col-2">
-          <p>Home / T-shirt</p>
-          <h2>Red Printed Tshirt by Puma</h2>
-          <h4>₹199</h4>
+          <p>{products ? products.category : "category"} </p>
+          <h2>{products ? products.name : "name"} </h2>
+          <h4>₹ {products ? products.price : "price"} </h4>
 
           <div className="select-size">
             <div className="size-arrange">
@@ -42,24 +63,16 @@ function ProductDetails() {
               <div>XL</div>
             </div>
           </div>
-          <input type="number" value="1" />
+          <input type="number" defaultValue='1' />
           <button className="btn">ADD TO BAG</button>
           <h3>
             Product details <i className="bx bx-right-indent"></i>
           </h3>
           <br />
-
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque eum
-            quas modi ipsam fugit dolorem officiis facilis quibusdam voluptas
-            eos. Neque, totam. Quaerat ad sequi ratione quod! Vitae, modi
-            tenetur?
-          </p>
+          <p> {products && products.productDetails}</p>
         </div>
       </div>
     </div>
-
-   
   );
 }
 

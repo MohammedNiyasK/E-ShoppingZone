@@ -1,9 +1,10 @@
-import { MongoClient } from "mongodb";
+import { dbo, client } from "../model/config/connection.mjs";
+import {ObjectId} from 'mongodb'
 
-const url = "mongodb://0.0.0.0:27017";
-const client = new MongoClient(url);
 
-const featuredProducts = (req, res) => {
+const featuredProducts = async (req, res) => {
+  const db_connect = dbo.getDb("Shopping_cart");
+  const productDetails = db_connect.collection("productDetails");
   const data = req.body;
 
   res.status(200).send("succesfully added");
@@ -12,30 +13,48 @@ const featuredProducts = (req, res) => {
 
   const uploadImage = url + "/" + req.file.path;
 
-  async function run() {
-    try {
-      await client.connect();
-
-      const db = client.db("products");
-
-      console.log(`succesfully connected to db ${db.databaseName}`);
-
-      const productDetails = db.collection("productDetails");
-
-      const cursorInsertion = await productDetails.insertOne({
-        name: data.name,
-        category: data.category,
-        price: data.price,
-        productDetails: data.productDetails,
-        image: uploadImage,
-      });
-    } catch (err) {
-      console.error(`we encountered ${err}`);
-    } finally {
-      client.close();
-    }
+  try {
+    const cursorInsertion = await productDetails.insertOne({
+      name: data.name,
+      category: data.category,
+      price: data.price,
+      productDetails: data.productDetails,
+      image: uploadImage,
+    });
+  } catch (err) {
+    console.error(`we encountered ${err}`);
   }
-  run().catch(console.dir);
 };
+
+export const getFeaturedProducts = async (req, res) => {
+  const db_connect = dbo.getDb();
+  try {
+    const result = await db_connect
+      .collection("productDetails")
+      .find({})
+      .toArray();
+   
+    res.status(200).send(result);
+  } catch (error) {
+    console.error(`Error detected: ${error}`);
+  }
+};
+
+ export const getSingleProduct = async (req,res) => {
+  const db_connect = dbo.getDb()
+  const id = req.params
+ console.log(id)
+  try {
+   const result =await db_connect.collection('productDetails')
+    .findOne({_id:new ObjectId(id)})
+    res.status(200).send(result)
+
+    console.log(result)
+    
+  } catch (error) {
+    console.error(`Error detected : ${error}`)
+  }
+  
+ }
 
 export default featuredProducts;

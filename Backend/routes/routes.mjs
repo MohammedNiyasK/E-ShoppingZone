@@ -3,7 +3,7 @@ const router = express.Router();
 import multer from "multer";
 import path from "path";
 
-import featuredProducts from "../controllers/product-controller.mjs";
+import featuredProducts,{getFeaturedProducts , getSingleProduct} from "../controllers/product-controller.mjs";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -16,10 +16,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+/* Product related routes */
+
 router.post(
   "/products/featuredProducts",
   upload.single("image"),
   featuredProducts
 );
+
+router.get('/products/getFeaturedProducts',getFeaturedProducts)
+
+router.get('/products/getFeaturedProducts/:id',getSingleProduct)
 
 export default router;
