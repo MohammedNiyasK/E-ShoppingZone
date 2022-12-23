@@ -1,4 +1,4 @@
-import { dbo, client } from "../model/config/connection.mjs";
+import { dbo } from "../model/config/connection.mjs";
 import {ObjectId} from 'mongodb'
 
 
