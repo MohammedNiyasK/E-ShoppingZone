@@ -2,7 +2,7 @@ import { dbo } from "../model/config/connection.mjs";
 import {ObjectId} from 'mongodb'
 
 
-const featuredProducts = async (req, res) => {
+export const featuredProducts = async (req, res) => {
   const db_connect = dbo.getDb("Shopping_cart");
   const productDetails = db_connect.collection("productDetails");
   const data = req.body;
@@ -42,11 +42,16 @@ export const getFeaturedProducts = async (req, res) => {
 
  export const getSingleProduct = async (req,res) => {
   const db_connect = dbo.getDb()
-  const id = req.params
- console.log(id)
+  
+  console.log(req.params)
+   const id = req.params.id
+ 
+
+ //new ObjectId(id)
   try {
+    
    const result =await db_connect.collection('productDetails')
-    .findOne({_id:new ObjectId(id)})
+    .findOne({'_id':ObjectId(id)})
     res.status(200).send(result)
 
     console.log(result)
@@ -57,4 +62,4 @@ export const getFeaturedProducts = async (req, res) => {
   
  }
 
-export default featuredProducts;
+

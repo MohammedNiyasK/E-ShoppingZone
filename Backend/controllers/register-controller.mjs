@@ -6,17 +6,19 @@ const {getDb} =dbo
 
 
 const getRegisterRoute =async  (req,res) =>{
-    const {user,password} = req.body
+    const {user,email,password} = req.body
     const db = getDb()
     const register = db.collection('register')
 
     try {
-        const duplicate = await register.findOne({user})
-        if(duplicate) return res.send(409).json({'message':error.message})
+        const duplicate = await register.findOne({username:user})
+        if(duplicate) return res.json({'message':'User already existed'})
 
         const hashPwd = await bcrypt.hash(password,saltRounds)
 
-        const response = await register.insertOne({username:user,password:hashPwd})
+        const response = await register.insertOne({username:user,
+            email,
+            password:hashPwd})
 
         res.send(`registered succesfully ${user}`)
 

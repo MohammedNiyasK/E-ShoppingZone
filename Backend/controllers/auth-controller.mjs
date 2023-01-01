@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt'
 import {dbo} from '../model/config/connection.mjs'
 const {getDb} = dbo
+import dotenv from 'dotenv'
+dotenv.config()
+import jwt from 'jsonwebtoken'
 
 const getAuthRouter = async (req,res)=>{
     
@@ -24,7 +27,36 @@ const getAuthRouter = async (req,res)=>{
         const match = await bcrypt.compare(password,hashedPwd)
 
         if(match){
-            res.json({foundUser})
+          
+            //create JWT token
+
+            const accessToken=jwt.sign({
+                'username':foundUser.username,
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {expiresIn:'1h'}
+            )
+            
+           const refreshToken = jwt.sign({
+            'username':foundUser.username},
+            process.env.REFRESH_TOKEN_SECRET,
+            {expiresIn:'1d'}
+
+           )
+
+           //Saving refreshToken with current user
+
+           db.collection('register').updateOne({username:foundUser.username},{$set:{'refreshToken':refreshToken}})
+
+           //Creates Secure Cookie with refresh token
+
+           res.cookie('jwt',refreshToken,{
+            httpOnly:true,Secure:true,
+            maxAge:24*60*60*1000
+           })
+
+
+            res.json({accessToken})
         }
     } catch (error) {
         res.send(`error:${error.message}`)
