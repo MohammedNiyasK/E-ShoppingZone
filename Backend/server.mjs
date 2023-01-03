@@ -14,6 +14,7 @@ import refresh from "./routes/refresh.mjs";
 import credentials from "./middleware/credentials.mjs";
 import corsOptions from "./model/config/corsOptions.mjs";
 import logoutRouter from "./routes/logout.mjs";
+import verifyRole from "./middleware/verifyRoles.mjs";
 
 app.use(express.json());
 app.use(credentials);
@@ -34,11 +35,12 @@ app.use("/api/refresh", refresh);
 app.use("/api/logout", logoutRouter);
 
 /* Featured products routes */
-
 app.use("/api/products/getFeaturedProducts", featuredProductsRouter);
 app.use("/", getSingleProduct);
- app.use(verifyJWT);
-app.use("/api/products/featuredProducts", postFeaturedProductsRouter);
+
+app.use(verifyJWT);
+
+app.use("/api/products/featuredProducts",verifyRole('admin'), postFeaturedProductsRouter);
 
 const port = process.env.PORT || 3000;
 

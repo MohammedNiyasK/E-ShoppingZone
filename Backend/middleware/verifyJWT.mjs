@@ -1,22 +1,24 @@
-import jwt from 'jsonwebtoken'
-import dotenv from 'dotenv'
-dotenv.config()
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
-const verifyJWT = (req,res,next) =>{
-    const authHeader = req.headers.authorization || req.headers.authorization
+const verifyJWT = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
 
-if(!authHeader ?. startsWith('Bearer')) return res.sendStatus(401)
-console.log(authHeader)
-const token = authHeader.split(' ')[1]
-console.log(token)
+  if (!authHeader?.startsWith("Bearer")) return res.sendStatus(401);
 
-jwt.verify(token,process.env.ACCESS_TOKEN_SECRET,
-    (err,decoded) =>{
-        if(err) return res.sendStatus(403)
-        req.user = decoded.username
-        next()
-    })
+  const token = authHeader.split(" ")[1];
 
-}
+  try {
+    const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    req.user = decoded.userInfo.username;
+    req.roles = decoded.userInfo.roles;
+
+    next();
+    
+  } catch (error) {
+    res.status(401).json({ message: error });
+  }
+};
 
 export default verifyJWT;
